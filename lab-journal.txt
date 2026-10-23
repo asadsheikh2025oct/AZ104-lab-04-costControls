@@ -1,0 +1,94 @@
+AZ104-Lab 04 - Azure Cost Controls
+Lab journal
+Completed: 18 October 2026
+Exam quiz: 5/5 (100%)
+
+------------------------------------------------------------
+1. WHAT I BUILT
+------------------------------------------------------------
+- A GBP 10 monthly budget for the Northstar Financial Services lab
+  subscription, with two alerts based on actual spend (50% and 90%),
+  emailed to me.
+- No Azure resources were deployed in this lab.
+
+------------------------------------------------------------
+2. WHAT I VERIFIED
+------------------------------------------------------------
+- October spend was GBP 0.04, broken down by resource group and service.
+- Cost Analysis can group by tag. I found "project: vmss" and untagged
+  spend, but no "CostCentre" tag.
+- The budget's evaluated spend matched Cost Analysis once it refreshed.
+- Azure Advisor's cost list was empty. Its two reliability items were stale.
+- az resource list and az group list both returned nothing, so nothing
+  is still billing.
+- The Portal fixes a budget's start date to the 1st of the month and
+  rejects a negative amount.
+- Only one budget remained after the failure test.
+
+------------------------------------------------------------
+3. WHAT SURPRISED ME
+------------------------------------------------------------
+- A new budget showed GBP 0 until it refreshed.
+- Advisor still recommended fixes for resources that no longer existed.
+- The "Virtual Network" cost line can include billable items such as
+  public IPs, not just the network itself.
+
+------------------------------------------------------------
+4. WHAT I LEARNED
+------------------------------------------------------------
+- A budget only warns. It never stops spending.
+- Tags are not retroactive.
+- Spend history and current spend are different things.
+
+------------------------------------------------------------
+5. INTERVIEW TALKING POINT
+------------------------------------------------------------
+"I traced a small bill back to deleted earlier projects, confirmed with
+the CLI that nothing was still billing, and set a budget alarm as a
+safety net."
+
+------------------------------------------------------------
+KEY LEARNINGS
+------------------------------------------------------------
+Concepts
+- Cost Analysis shows where money went (resource group, service,
+  resource type, tag). A budget shows when a limit is crossed.
+- A budget is a notification, not a control. Automatic action needs an
+  action group and extra automation.
+- Actual alerts fire after money is spent. Forecast alerts fire when
+  Azure predicts a breach.
+- A tag on a resource group does not flow to its resources' cost records
+  unless tag inheritance is enabled.
+- Untagged spend is what a required-tag policy exists to prevent.
+- Advisor only recommends and never acts. Its data can lag behind
+  deletions. VM right-sizing advice needs about 7 days of usage data.
+- Advisor categories: Cost, Security, Reliability, Operational
+  Excellence, Performance.
+- Cost Management exports send cost data as files to a storage account.
+
+Gotchas
+- Clicking a chart segment in Cost Analysis adds a filter that must be
+  cleared with the X on the filter pill.
+- Budget start dates are fixed to the 1st of the month in the Portal.
+
+Errors and checks
+- A negative budget amount was rejected by form validation. Budgets are
+  structured objects with rules.
+- Advisor's reliability recommendations contradicted an empty resource
+  list. Check the real subscription state before trusting a report.
+
+Commands used (in words)
+- List all resources in the subscription.
+- List resource group names with a query.
+- Show the current subscription name to confirm the CLI target.
+
+Revision backlog from this lab
+- Cost Management exports to a storage account.
+- Tag inheritance setting.
+- Forecast alerts and an action group on a budget.
+- Advisor Quick Fix, Postpone and Dismiss, and a real right-sizing
+  recommendation.
+
+Resource deliberately retained
+- Budget "northstar-financial-lab": GBP 10 monthly, free, kept as a
+  safety net for later labs.
